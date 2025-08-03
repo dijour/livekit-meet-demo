@@ -35,6 +35,10 @@ const nextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': require('path').resolve(__dirname),
+      '@/vendor': require('path').resolve(__dirname, 'vendor'),
+      '@/lib': require('path').resolve(__dirname, 'lib'),
+      '@/components': require('path').resolve(__dirname, 'components'),
+      '@/app': require('path').resolve(__dirname, 'app'),
     };
     
     // Ensure vendor directory is properly resolved
