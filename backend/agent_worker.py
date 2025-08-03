@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import asyncio
 import logging
+import os
 from dataclasses import dataclass
 from typing import Optional
 from livekit.agents.llm import function_tool
@@ -27,7 +28,13 @@ except ImportError:
     # Fallback: noise cancellation not available in this version
     noise_cancellation = None
 
-load_dotenv(".env.local")
+# Only load .env.local if it exists (for local development)
+# In Railway, environment variables are already set
+if os.path.exists(".env.local"):
+    load_dotenv(".env.local")
+    logger.info("Loaded .env.local file")
+else:
+    logger.info("No .env.local file found, using system environment variables")
 
 @dataclass
 class ConversationData:
