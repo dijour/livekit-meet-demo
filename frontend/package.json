@@ -26,6 +26,7 @@
     "react-dom": "18.3.1",
     "react-hot-toast": "^2.5.2",
     "rxjs": "7.8.2",
+    "source-map-loader": "^5.0.0",
     "tinykeys": "^3.0.0",
     "usehooks-ts": "3.1.1"
   },
@@ -37,7 +38,6 @@
     "eslint-config-next": "15.3.3",
     "ignore-loader": "^0.1.2",
     "prettier": "3.5.3",
-    "source-map-loader": "^5.0.0",
     "typescript": "5.8.3",
     "vitest": "^3.2.4"
   },
