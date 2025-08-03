@@ -50,7 +50,9 @@ dist/
 downloads/
 eggs/
 .eggs/
+# Python lib directories
 lib/
+!frontend/lib/
 lib64/
 parts/
 sdist/

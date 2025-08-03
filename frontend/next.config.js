@@ -32,14 +32,26 @@ const nextConfig = {
     });
 
     // Improve module resolution for vendor directory
+    const path = require('path');
+    
+    // Debug logging for Vercel
+    console.log('Next.js config __dirname:', __dirname);
+    console.log('Resolved @ path:', path.resolve(__dirname));
+    
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': require('path').resolve(__dirname),
-      '@/vendor': require('path').resolve(__dirname, 'vendor'),
-      '@/lib': require('path').resolve(__dirname, 'lib'),
-      '@/components': require('path').resolve(__dirname, 'components'),
-      '@/app': require('path').resolve(__dirname, 'app'),
+      '@': path.resolve(__dirname),
+      '@/vendor': path.resolve(__dirname, 'vendor'),
+      '@/lib': path.resolve(__dirname, 'lib'),
+      '@/components': path.resolve(__dirname, 'components'),
+      '@/app': path.resolve(__dirname, 'app'),
+      '@/styles': path.resolve(__dirname, 'styles'),
+      '@/hooks': path.resolve(__dirname, 'hooks'),
+      '@/types': path.resolve(__dirname, 'types'),
     };
+    
+    // Debug: log the final alias configuration
+    console.log('Final webpack aliases:', config.resolve.alias);
     
     // Ensure vendor directory is properly resolved
     config.resolve.modules = [

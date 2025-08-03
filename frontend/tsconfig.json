@@ -20,6 +20,7 @@
     "jsx": "preserve",
     "incremental": true,
     "sourceMap": true,
+    "baseUrl": ".",
     "plugins": [
       {
         "name": "next"
@@ -30,7 +31,10 @@
       "@/vendor/*": ["./vendor/*"],
       "@/lib/*": ["./lib/*"],
       "@/components/*": ["./components/*"],
-      "@/app/*": ["./app/*"]
+      "@/app/*": ["./app/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/types/*": ["./types/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "types/**/*.d.ts"],
