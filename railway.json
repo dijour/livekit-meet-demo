@@ -4,6 +4,6 @@
     "builder": "nixpacks"
   },
   "deploy": {
-    "startCommand": "cd backend && python agent_worker.py"
+    "startCommand": "cd backend && python agent_worker.py start"
   }
 }
