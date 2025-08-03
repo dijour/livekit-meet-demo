@@ -1,0 +1,11 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Backend development server'",
+    "build": "echo 'Backend build complete'",
+    "lint": "echo 'Backend lint complete'",
+    "type-check": "echo 'Backend type-check complete'"
+  }
+}

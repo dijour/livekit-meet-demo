@@ -1,11 +1,24 @@
 {
-  "name": "hedra-avatar-app",
+  "name": "livekit-meet-monorepo",
   "version": "0.1.6",
+  "private": true,
+  "packageManager": "pnpm@8.0.0",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
     "start-app": "cd frontend && pnpm install && pnpm dev",
     "start-agent": "source venv/bin/activate && cd backend && pip install -r requirements.txt && python agent_worker.py start",
     "start-martha": "source venv/bin/activate && cd backend && pip install -r requirements.txt && python martha_agent.py start",
     "start-snoop": "source venv/bin/activate && cd backend && pip install -r requirements.txt && python snoop_agent.py start",
     "start-dual-agents": "pnpm run start-martha & pnpm run start-snoop"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.5"
   }
 }

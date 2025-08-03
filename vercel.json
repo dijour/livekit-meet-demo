@@ -1,12 +1,7 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/next",
-      "config": {
-        "distDir": ".next"
-      }
-    }
-  ]
+  "buildCommand": "cd frontend && pnpm install && pnpm run build",
+  "outputDirectory": "frontend/.next",
+  "installCommand": "echo 'Dependencies installed in buildCommand'",
+  "framework": "nextjs"
 }
