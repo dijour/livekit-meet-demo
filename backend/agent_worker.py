@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 import asyncio
 import logging
 import os
@@ -28,13 +27,17 @@ except ImportError:
     # Fallback: noise cancellation not available in this version
     noise_cancellation = None
 
-# Only load .env.local if it exists (for local development)
-# In Railway, environment variables are already set
-if os.path.exists(".env.local"):
-    load_dotenv(".env.local")
-    logger.info("Loaded .env.local file")
-else:
-    logger.info("No .env.local file found, using system environment variables")
+# Conditional dotenv loading - works locally and on Railway
+try:
+    from dotenv import load_dotenv
+    if os.path.exists(".env.local"):
+        load_dotenv(".env.local")
+        logger.info("✅ Loaded .env.local file for local development")
+    else:
+        logger.info("📁 No .env.local file found, using system environment variables")
+except ImportError:
+    # dotenv not available (e.g., in Railway) - use system environment variables
+    logger.info("🚀 Using Railway/system environment variables (dotenv not available)")
 
 @dataclass
 class ConversationData:
