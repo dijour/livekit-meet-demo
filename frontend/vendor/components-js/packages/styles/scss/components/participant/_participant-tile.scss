@@ -6,6 +6,9 @@
   --speaking-indicator-width: 2.5px;
   position: relative;
   display: flex;
+  width: 365px;
+  height: 365px;
+  aspect-ratio: 1;
   flex-direction: column;
   gap: 0.375rem;
   overflow: hidden;

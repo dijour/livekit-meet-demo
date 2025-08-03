@@ -107,7 +107,7 @@ export function setupChat(room: Room, options?: ChatOptions) {
     messageObservable
       .pipe(
         map((msg) => {
-          const parsedMessage = finalMessageDecoder(msg.payload);
+          const parsedMessage = finalMessageDecoder(msg.payload as Uint8Array);
           if (isIgnorableChatMessage(parsedMessage)) {
             return undefined;
           }
