@@ -31,10 +31,18 @@ const nextConfig = {
       loader: 'ignore-loader'
     });
 
-    // Also exclude these directories from module resolution
+    // Improve module resolution for vendor directory
     config.resolve.alias = {
       ...config.resolve.alias,
+      '@': require('path').resolve(__dirname),
     };
+    
+    // Ensure vendor directory is properly resolved
+    config.resolve.modules = [
+      ...(config.resolve.modules || []),
+      require('path').resolve(__dirname, 'vendor'),
+      'node_modules'
+    ];
     
     // Ignore TypeScript compilation for these directories
     if (!config.resolve.fallback) {
