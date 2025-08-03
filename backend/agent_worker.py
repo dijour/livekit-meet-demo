@@ -93,54 +93,73 @@ async def entrypoint(ctx: agents.JobContext):
     # Set up logging
     logging.basicConfig(level=logging.INFO)
     
-    # Create two sessions with different voices
-    snoop_session = AgentSession(
-        llm=openai.realtime.RealtimeModel(voice="ash"),
-        userdata=ConversationData()
-    )
+    # Validate required environment variables
+    import os
+    required_vars = ['OPENAI_API_KEY', 'HEDRA_API_KEY', 'LIVEKIT_URL', 'LIVEKIT_API_KEY', 'LIVEKIT_API_SECRET']
+    missing_vars = [var for var in required_vars if not os.getenv(var)]
     
-    martha_session = AgentSession(
-        llm=openai.realtime.RealtimeModel(voice="shimmer"),
-        userdata=ConversationData()
-    )
+    if missing_vars:
+        logger.error(f"Missing required environment variables: {', '.join(missing_vars)}")
+        raise ValueError(f"Missing required environment variables: {', '.join(missing_vars)}")
+    
+    logger.info("Starting agent worker with all required environment variables")
+    
+    try:
+        # Create two sessions with different voices
+        snoop_session = AgentSession(
+            llm=openai.realtime.RealtimeModel(voice="ash"),
+            userdata=ConversationData()
+        )
+        
+        martha_session = AgentSession(
+            llm=openai.realtime.RealtimeModel(voice="shimmer"),
+            userdata=ConversationData()
+        )
 
-    # Create avatar sessions
-    snoop_avatar = hedra.AvatarSession(
-        avatar_id="cc8558ef-c600-4b4f-b685-7e9f2afec194",
-        avatar_participant_identity="snoop",
-        avatar_participant_name="Snoop Dogg",
-    )
+        # Create avatar sessions
+        snoop_avatar = hedra.AvatarSession(
+            avatar_id="cc8558ef-c600-4b4f-b685-7e9f2afec194",
+            avatar_participant_identity="snoop",
+            avatar_participant_name="Snoop Dogg",
+        )
 
-    martha_avatar = hedra.AvatarSession(
-        avatar_id="0396e7f6-252a-4bd8-8f41-e8d1ecd6367e",
-        avatar_participant_identity="martha",
-        avatar_participant_name="Martha Stewart",
-    )
+        martha_avatar = hedra.AvatarSession(
+            avatar_id="0396e7f6-252a-4bd8-8f41-e8d1ecd6367e",
+            avatar_participant_identity="martha",
+            avatar_participant_name="Martha Stewart",
+        )
 
-    # Start avatars with their respective sessions
-    await snoop_avatar.start(snoop_session, room=ctx.room)
-    await asyncio.sleep(2)  # Add delay to prevent rate limiting
-    await martha_avatar.start(martha_session, room=ctx.room)
+        # Start avatars with their respective sessions
+        logger.info("Starting Snoop avatar...")
+        await snoop_avatar.start(snoop_session, room=ctx.room)
+        await asyncio.sleep(2)  # Add delay to prevent rate limiting
+        
+        logger.info("Starting Martha avatar...")
+        await martha_avatar.start(martha_session, room=ctx.room)
 
-    # Start with Snoop
-    await snoop_session.start(
-        room=ctx.room,
-        agent=SnoopAgent(),
-        room_output_options=RoomOutputOptions(audio_enabled=False),
-        room_input_options=RoomInputOptions(
-            noise_cancellation=noise_cancellation.BVC() if noise_cancellation else None,
-        ),
-    )
+        # Start with Snoop
+        logger.info("Starting Snoop session...")
+        await snoop_session.start(
+            room=ctx.room,
+            agent=SnoopAgent(),
+            room_output_options=RoomOutputOptions(audio_enabled=False),
+            room_input_options=RoomInputOptions(
+                noise_cancellation=noise_cancellation.BVC() if noise_cancellation else None,
+            ),
+        )
 
-    # Start Martha's session
-    await martha_session.start(
-        room=ctx.room,
-        agent=MarthaAgent(),
-        room_output_options=RoomOutputOptions(audio_enabled=False),
-        room_input_options=RoomInputOptions(
-            noise_cancellation=noise_cancellation.BVC() if noise_cancellation else None,
-        ),
-    )
+        # Start Martha's session
+        logger.info("Starting Martha session...")
+        await martha_session.start(
+            room=ctx.room,
+            agent=MarthaAgent(),
+            room_output_options=RoomOutputOptions(audio_enabled=False),
+            room_input_options=RoomInputOptions(
+                noise_cancellation=noise_cancellation.BVC() if noise_cancellation else None,
+            ),
+        )
+    except Exception as e:
+        logger.error(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     agents.cli.run_app(agents.WorkerOptions(entrypoint_fnc=entrypoint))
