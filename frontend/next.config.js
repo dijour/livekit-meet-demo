@@ -34,10 +34,6 @@ const nextConfig = {
     // Improve module resolution for vendor directory
     const path = require('path');
     
-    // Debug logging for Vercel
-    console.log('Next.js config __dirname:', __dirname);
-    console.log('Resolved @ path:', path.resolve(__dirname));
-    
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname),
@@ -49,9 +45,6 @@ const nextConfig = {
       '@/hooks': path.resolve(__dirname, 'hooks'),
       '@/types': path.resolve(__dirname, 'types'),
     };
-    
-    // Debug: log the final alias configuration
-    console.log('Final webpack aliases:', config.resolve.alias);
     
     // Ensure vendor directory is properly resolved
     config.resolve.modules = [
