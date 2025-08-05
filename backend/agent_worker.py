@@ -38,6 +38,7 @@ try:
 except ImportError:
     # dotenv not available (e.g., in Railway) - use system environment variables
     logger.info("🚀 Using Railway/system environment variables (dotenv not available)")
+    logger.warning("⚠️ Proceeding with caution.")
 
 @dataclass
 class ConversationData:
